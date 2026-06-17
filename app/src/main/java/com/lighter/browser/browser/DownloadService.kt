@@ -14,17 +14,9 @@ import java.io.File
 import java.io.FileOutputStream
 import android.os.Environment
 
-/**
- * Foreground service for big / resumable downloads via OkHttp.
- * Launched by WorkManager when system DownloadManager is unavailable
- * or when spoofed headers must be sent.
- */
 class DownloadService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // The actual download work is done via WorkManager (DownloadWorker below).
-        // This Service exists purely to satisfy the foregroundServiceType=dataSync
-        // declaration in the manifest, allowing long-running downloads.
         return START_NOT_STICKY
     }
 }
@@ -67,17 +59,6 @@ class DownloadWorker(
             Result.success()
         } catch (t: Throwable) {
             Result.retry()
-        }
-    }
-
-    private fun ensureChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val nm = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            if (nm.getNotificationChannel("downloads") == null) {
-                nm.createNotificationChannel(
-                    NotificationChannel("downloads", "Downloads", NotificationManager.IMPORTANCE_LOW)
-                )
-            }
         }
     }
 }

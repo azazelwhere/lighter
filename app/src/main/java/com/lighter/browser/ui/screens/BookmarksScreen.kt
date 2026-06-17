@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.lighter.browser.data.AppDatabase
 import com.lighter.browser.data.BookmarkEntity
 import com.lighter.browser.ui.theme.*

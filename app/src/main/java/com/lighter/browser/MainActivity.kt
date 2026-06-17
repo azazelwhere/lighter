@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var app: LighterApp
     private lateinit var torManager: TorManager
-    private lateinit var prefs: Prefs
     private lateinit var profileManager: ProfileManager
 
     private val orbotReceiver = object : BroadcastReceiver() {
@@ -38,19 +37,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = LighterApp.get(application)
-        prefs = app.prefs
         torManager = app.torManager
         profileManager = app.profileManager
 
-        // Request notif permission for download/tor notifications
         Permissions.requestNotificationPermission(this)
 
-        // Ensure first tab opens if activity launched cold
         if (app.tabManager.tabs.isEmpty()) {
             app.tabManager.newTab("https://duckduckgo.com")
         }
 
-        // If launched via VIEW intent, navigate to that URL
         intent?.data?.let { uri ->
             app.tabManager.loadUrl(uri.toString())
         }
@@ -73,13 +68,11 @@ class MainActivity : ComponentActivity() {
                             onOpenHistory = { navController.navigate("history") },
                             onOpenSettings = { navController.navigate("settings") },
                             onOpenSpoofing = { navController.navigate("spoofing") },
-                            onOpenDownloads = { /* TODO open system Downloads app */ },
-                            onOpenFind = { /* TODO in-page find UI */ },
+                            onOpenDownloads = { },
+                            onOpenFind = { },
                             onScreenshot = {
                                 app.tabManager.takeScreenshot { bmp ->
-                                    if (bmp != null) {
-                                        // TODO save to gallery via MediaStore
-                                    }
+                                    if (bmp != null) { }
                                 }
                             },
                             onReader = {
@@ -134,7 +127,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("settings") {
                         SettingsScreen(
-                            prefs = prefs,
+                            prefs = app.prefs,
                             torManager = torManager,
                             onClose = { navController.popBackStack() }
                         )
@@ -143,7 +136,6 @@ class MainActivity : ComponentActivity() {
                         SpoofingScreen(
                             profileManager = profileManager,
                             onApply = {
-                                // Trigger reload of all open tabs so spoofing takes effect
                                 app.tabManager.tabs.forEach { it.webView.reload() }
                                 navController.popBackStack()
                             },
@@ -157,7 +149,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Register Orbot status receiver
         val filter = IntentFilter().apply {
             addAction(TorManager.ORBOT_EXTRA_STATUS)
             addAction("org.torproject.android.intent.action.STATUS")
@@ -177,22 +168,19 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Clear data on exit if enabled
         lifecycleScope.launch(Dispatchers.IO) {
-            if (prefs.clearOnExit.flow.first()) {
+            if (app.prefs.clearOnExit.flow.first()) {
                 app.dataCleaner.clearAll(includeBookmarks = false)
             }
-            // Destroy all tabs
             app.tabManager.closeAll()
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onBackPressed() {
-        // Pressing back: if WebView can go back, do that; else default
         if (app.tabManager.canGoBack()) {
             app.tabManager.goBack()
         } else {
-            @Suppress("DEPRECATION")
             super.onBackPressed()
         }
     }
