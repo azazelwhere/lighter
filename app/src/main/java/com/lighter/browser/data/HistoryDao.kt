@@ -26,6 +26,6 @@ interface HistoryDao {
     @Query("SELECT * FROM history WHERE title LIKE :q OR url LIKE :q ORDER BY visitedAt DESC LIMIT 100")
     suspend fun search(q: String): List<HistoryEntity>
 
-    @Query("SELECT DISTINCT url, title FROM history WHERE url LIKE :prefix || '%' ORDER BY visitedAt DESC LIMIT 10")
+    @Query("SELECT * FROM history WHERE url LIKE :prefix || '%' ORDER BY visitedAt DESC LIMIT 10")
     suspend fun suggest(prefix: String): List<HistoryEntity>
 }
