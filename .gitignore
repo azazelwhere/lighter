@@ -1,0 +1,21 @@
+# Gradle / Build
+.gradle/
+build/
+*/build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Wrapper binary (downloaded by build.sh)
+gradle/wrapper/gradle-wrapper.jar
+
+# Keystore
+*.jks
+*.keystore
+
+# Logs
+*.log

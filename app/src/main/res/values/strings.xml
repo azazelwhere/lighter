@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">Lighter</string>
+    <string name="app_subtitle">Anonymous Browser</string>
+
+    <!-- Url bar -->
+    <string name="hint_url">Cari atau ketik URL</string>
+    <string name="action_go">Buka</string>
+    <string name="action_reload">Muat ulang</string>
+    <string name="action_stop">Berhenti</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_forward">Maju</string>
+    <string name="action_home">Beranda</string>
+
+    <!-- Tabs -->
+    <string name="action_new_tab">Tab baru</string>
+    <string name="action_new_incognito_tab">Tab penyamaran baru</string>
+    <string name="action_close_tab">Tutup tab</string>
+    <string name="action_tabs">Tab</string>
+    <string name="title_tabs">%1$d tab</string>
+
+    <!-- Menu -->
+    <string name="action_bookmarks">Bookmark</string>
+    <string name="action_history">Riwayat</string>
+    <string name="action_downloads">Download</string>
+    <string name="action_share">Bagikan</string>
+    <string name="action_find">Cari di halaman</string>
+    <string name="action_screenshot">Screenshot</string>
+    <string name="action_reader">Mode baca</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="action_spoofing">Spoofing identitas</string>
+    <string name="action_exit">Keluar</string>
+
+    <!-- Settings -->
+    <string name="settings_general">Umum</string>
+    <string name="settings_privacy">Privasi &amp; Anonimitas</string>
+    <string name="settings_spoofing">Spoofing identitas</string>
+    <string name="settings_search_engine">Mesin pencari</string>
+    <string name="settings_homepage">Halaman beranda</string>
+    <string name="settings_javascript">Aktifkan JavaScript</string>
+    <string name="settings_cookies">Terima cookies</string>
+    <string name="settings_images">Tampilkan gambar</string>
+    <string name="settings_dom_storage">DOM storage</string>
+    <string name="settings_adblock">Ad &amp; tracker blocker</string>
+    <string name="settings_doh">DNS over HTTPS</string>
+    <string name="settings_doh_provider">Penyedia DoH</string>
+    <string name="settings_proxy">Proxy</string>
+    <string name="settings_tor">Tor (Orbot)</string>
+    <string name="settings_clear_on_exit">Bersihkan data saat keluar</string>
+    <string name="settings_do_not_track">Kirim Do Not Track</string>
+    <string name="settings_save_history">Simpan riwayat</string>
+
+    <!-- Spoofing -->
+    <string name="spoof_title">Spoofing Identitas</string>
+    <string name="spoof_subtitle">Ganti identitas perangkat sepenuhnya</string>
+    <string name="spoof_active_profile">Profil aktif</string>
+    <string name="spoof_user_agent">User-Agent</string>
+    <string name="spoof_platform">Platform</string>
+    <string name="spoof_screen">Layar &amp; viewport</string>
+    <string name="spoof_timezone">Zona waktu</string>
+    <string name="spoof_locale">Bahasa &amp; region</string>
+    <string name="spoof_webgl">WebGL &amp; GPU</string>
+    <string name="spoof_canvas">Canvas fingerprint</string>
+    <string name="spoof_battery">Battery API</string>
+    <string name="spoof_sensors">Sensor (accel/gyro)</string>
+    <string name="spoof_fonts">Font listing</string>
+    <string name="spoof_plugins">navigator.plugins</string>
+    <string name="spoof_languages">navigator.languages</string>
+    <string name="spoof_randomize">Acak fingerprint tiap request</string>
+    <string name="spoof_new_profile">Profil baru</string>
+    <string name="spoof_save">Simpan profil</string>
+    <string name="spoof_apply">Terapkan ke semua tab</string>
+    <string name="spoof_export">Ekspor profil</string>
+    <string name="spoof_import">Impor profil</string>
+
+    <!-- Tor -->
+    <string name="tor_not_installed">Orbot tidak terpasang. Pasang dari Play Store atau F-Droid.</string>
+    <string name="tor_starting">Memulai Tor via Orbot…</string>
+    <string name="tor_connected">Tor terhubung pada 127.0.0.1:9050</string>
+    <string name="tor_failed">Gagal terhubung ke Tor. Cek Orbot.</string>
+
+    <!-- Permissions -->
+    <string name="perm_notif_rationale">Notifikasi diperlukan untuk status download &amp; Tor.</string>
+
+    <!-- Misc -->
+    <string name="loading">Memuat…</string>
+    <string name="empty_bookmarks">Belum ada bookmark</string>
+    <string name="empty_history">Riwayat kosong</string>
+    <string name="empty_downloads">Belum ada download</string>
+    <string name="confirm_clear_data">Bersihkan semua data browsing?</string>
+    <string name="confirm">Ya</string>
+    <string name="cancel">Batal</string>
+    <string name="add_bookmark">Tambah bookmark</string>
+    <string name="edit_bookmark">Edit bookmark</string>
+    <string name="title_placeholder">Tanpa judul</string>
+</resources>
