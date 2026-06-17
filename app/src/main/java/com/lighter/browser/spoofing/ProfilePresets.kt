@@ -186,4 +186,8 @@ object ProfilePresets {
             batteryCharging = listOf(true, false).random()
         )
     }
+
+    /** Helper: pick random float in range (replaces error-prone ClosedRange<Float>.random()) */
+    private fun ClosedRange<Float>.random(): Float =
+        start + (endInclusive - start) * kotlin.random.Random.nextFloat()
 }

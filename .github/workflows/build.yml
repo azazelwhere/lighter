@@ -29,6 +29,7 @@ jobs:
           mkdir -p $HOME/.android
           touch $HOME/.android/repositories.cfg
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses > /dev/null 2>&1 || true
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -40,15 +41,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Download gradle-wrapper.jar (force fresh)
+      - name: Download gradle-wrapper.jar (force fresh, ignore corrupt local)
         run: |
-          echo "=== Downloading gradle-wrapper.jar from official Gradle 8.5 release ==="
+          echo "=== Force downloading gradle-wrapper.jar from official Gradle 8.5 release ==="
           mkdir -p gradle/wrapper
           rm -f gradle/wrapper/gradle-wrapper.jar
           curl -fL --retry 5 --retry-delay 3 -o gradle/wrapper/gradle-wrapper.jar \
             https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
           ls -la gradle/wrapper/gradle-wrapper.jar
           file gradle/wrapper/gradle-wrapper.jar
+          # Validate JAR
           if ! jar tf gradle/wrapper/gradle-wrapper.jar > /dev/null 2>&1; then
             echo "FATAL: gradle-wrapper.jar is corrupted"
             exit 1
@@ -58,7 +60,7 @@ jobs:
 
       - name: Verify gradlew script
         run: |
-          echo "=== gradlew first 20 lines ==="
+          echo "=== gradlew script content (first 20 lines) ==="
           head -20 gradlew
           echo "=== gradlew file info ==="
           ls -la gradlew
@@ -68,12 +70,13 @@ jobs:
         run: |
           echo "=== Java version ==="
           java -version
-          echo "=== Gradle wrapper properties ==="
+          echo "=== Gradle version ==="
           cat gradle/wrapper/gradle-wrapper.properties
           echo "=== Project structure ==="
           ls -la
           echo "=== ANDROID_HOME ==="
           echo "ANDROID_HOME=$ANDROID_HOME"
+          ls $ANDROID_HOME 2>/dev/null || echo "ANDROID_HOME not set or empty"
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace --warning-mode all
@@ -99,3 +102,9 @@ jobs:
             build/reports/
           retention-days: 7
           if-no-files-found: warn
+
+      - name: Show build size
+        if: always()
+        run: |
+          echo "=== Build output ==="
+          find app/build/outputs -name "*.apk" -exec ls -lh {} \; 2>/dev/null || echo "No APK found"

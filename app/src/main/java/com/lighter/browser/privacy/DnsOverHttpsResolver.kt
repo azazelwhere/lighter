@@ -1,7 +1,7 @@
 package com.lighter.browser.privacy
 
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Dns
-import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.dnsoverhttps.DnsOverHttps
 import java.net.InetAddress
@@ -15,8 +15,8 @@ import java.net.InetAddress
 class DnsOverHttpsResolver(
     private val bootstrapClient: OkHttpClient = OkHttpClient.Builder().build()
 ) {
-    fun resolve(dohUrl: String): Dns {
-        val url = HttpUrl.get(dohUrl)
+    fun resolve(dohUrl: String): Dns? {
+        val url = dohUrl.toHttpUrlOrNull() ?: return null
         return DnsOverHttps.Builder()
             .client(bootstrapClient)
             .url(url)
@@ -27,7 +27,7 @@ class DnsOverHttpsResolver(
     /** Resolve a hostname via DoH, returns first A record or null. */
     fun lookup(dohUrl: String, host: String): InetAddress? {
         return try {
-            resolve(dohUrl).lookup(host).firstOrNull()
+            resolve(dohUrl)?.lookup(host)?.firstOrNull()
         } catch (t: Throwable) { null }
     }
 }

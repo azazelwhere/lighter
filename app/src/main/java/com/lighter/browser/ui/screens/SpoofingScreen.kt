@@ -16,7 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.lighter.browser.spoofing.ProfileManager
@@ -33,7 +32,6 @@ fun SpoofingScreen(
     onClose: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val ctx = LocalContext.current
     val active by profileManager.activeProfile.collectAsState()
     val custom by profileManager.customProfiles.collectAsState()
     var editing by remember { mutableStateOf<SpoofProfile?>(null) }

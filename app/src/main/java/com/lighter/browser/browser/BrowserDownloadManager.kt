@@ -77,7 +77,7 @@ class BrowserDownloadManager(
         referer: String?,
         cookies: String?
     ) {
-        val req = OneTimeWorkRequestBuilder<DownloadService>().apply {
+        val req = OneTimeWorkRequestBuilder<DownloadWorker>().apply {
             setInputData(
                 workDataOf(
                     "url" to url,

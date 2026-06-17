@@ -197,7 +197,6 @@ class TabManager(
                 // Incognito: disable DOM storage, cache, cookies for this WebView
                 domStorageEnabled = false
                 cacheMode = WebSettings.LOAD_NO_CACHE
-                setAppCacheEnabled(false)
             }
         }
 

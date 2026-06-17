@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.lighter.browser.data.AppDatabase
 import com.lighter.browser.data.HistoryEntity
 import com.lighter.browser.ui.theme.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,8 +33,12 @@ fun HistoryScreen(
     val scope = rememberCoroutineScope()
     var items by remember { mutableStateOf<List<HistoryEntity>>(emptyList()) }
 
-    LaunchedEffect(Unit) {
-        database.historyDao().observeRecent().collectLatest { items = it }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val liveData = database.historyDao().observeRecent()
+        val observer = Observer<List<HistoryEntity>> { items = it }
+        liveData.observe(lifecycleOwner, observer)
+        onDispose { liveData.removeObserver(observer) }
     }
 
     val df = remember { SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault()) }

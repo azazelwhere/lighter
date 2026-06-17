@@ -14,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.Observer
 import com.lighter.browser.data.AppDatabase
 import com.lighter.browser.data.BookmarkEntity
 import com.lighter.browser.ui.theme.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,8 +31,12 @@ fun BookmarksScreen(
     val scope = rememberCoroutineScope()
     var bookmarks by remember { mutableStateOf<List<BookmarkEntity>>(emptyList()) }
 
-    LaunchedEffect(Unit) {
-        database.bookmarkDao().observeAll().collectLatest { bookmarks = it }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val liveData = database.bookmarkDao().observeAll()
+        val observer = Observer<List<BookmarkEntity>> { bookmarks = it }
+        liveData.observe(lifecycleOwner, observer)
+        onDispose { liveData.removeObserver(observer) }
     }
 
     Column(Modifier.fillMaxSize().background(HoloBackground)) {

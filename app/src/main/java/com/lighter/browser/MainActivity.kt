@@ -13,8 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.lighter.browser.browser.TabManager
-import com.lighter.browser.data.Prefs
 import com.lighter.browser.privacy.TorManager
 import com.lighter.browser.spoofing.ProfileManager
 import com.lighter.browser.ui.screens.*
